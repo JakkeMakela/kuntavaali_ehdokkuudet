@@ -9,9 +9,9 @@ output:
 
 # Johdanto
 
-Tässä raportissa analysoidaan kuntavaaliehdokkaiden vaihtuvuutta Suomen kuntavaaleissa 2012-2023. Tarkoituksena on selvittää, onko puolueiden välillä eroja siinä, miten paljon vaihtuvuutta ehdokkaissa on eri kuntavaalien välillä.
+Tässä raportissa analysoidaan kuntavaaliehdokkaiden vaihtuvuutta Suomen kuntavaaleissa 2012-2023. Tarkoituksena on selvittää, onko puolueiden välillä eroja siinä, miten paljon vaihtuvuutta ehdokkaissa on eri kuntavaalien välillä. 
 
-Datat on haettu csv:nä oikeusministeriön palvelusta
+Datat on haettu csv:nä 2023-05-03 oikeusministeriön palvelusta
 https://tulospalvelu.vaalit.fi/
 
 
