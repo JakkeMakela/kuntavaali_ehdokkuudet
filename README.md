@@ -1,0 +1,2 @@
+# kuntavaali_ehdokkuudet
+ 
