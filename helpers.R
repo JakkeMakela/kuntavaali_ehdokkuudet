@@ -80,14 +80,14 @@ teeTilasto <- function(data, min.lista=13, min.otos = 20){
 
 
 plotTilasto <- function(data, wrap = TRUE, caption="Vanhojen ehdokkaiden osuudet", 
-                        puoluevarit = c( "KOK" = "blue",
-                                          "KESK" = "lightgreen",
-                                          "PS" = "yellow",
-                                          "RKP" = "cyan",
-                                          "SDP" = "pink",
-                                          "VAS" = "red",
-                                          "VIHR" = "darkgreen" )
-                        ){
+                        puoluevarit = c( "KOK" = "blue3",
+                                         "KESK" = "chartreuse3",
+                                         "PS" = "gold3",
+                                         "RKP" = "cyan4",
+                                         "SDP" = "deeppink2",
+                                         "VAS" = "firebrick3",
+                                         "VIHR" = "darkgreen" )
+){
   medianval <- data %>% pull(vanhojen_osuus) %>% median()
   
   plotdata <- data %>%
@@ -110,13 +110,13 @@ plotTilasto <- function(data, wrap = TRUE, caption="Vanhojen ehdokkaiden osuudet
 
 
 plotIka <- function(data,  caption ="", ymin=18, ymax=80, 
-                    puoluevarit = c( "KOK" = "blue",
-                                      "KESK" = "lightgreen",
-                                      "PS" = "yellow",
-                                      "RKP" = "cyan",
-                                      "SDP" = "pink",
-                                      "VAS" = "red",
-                                      "VIHR" = "darkgreen" )){
+                    puoluevarit = c( "KOK" = "blue3",
+                                     "KESK" = "chartreuse3",
+                                     "PS" = "gold3",
+                                     "RKP" = "cyan4",
+                                     "SDP" = "deeppink2",
+                                     "VAS" = "firebrick3",
+                                     "VIHR" = "darkgreen" )){
   plotdata <- data
   
   medianval <- plotdata %>% pull(ika) %>% median()
@@ -133,32 +133,62 @@ plotIka <- function(data,  caption ="", ymin=18, ymax=80,
 
 
 
+plotDistr <- function(data, sarake, caption ="", xmin=18, xmax=80, 
+                      puoluevarit = c( "KOK" = "blue3",
+                                       "KESK" = "chartreuse3",
+                                       "PS" = "gold3",
+                                       "RKP" = "cyan4",
+                                       "SDP" = "deeppink2",
+                                       "VAS" = "firebrick3",
+                                       "VIHR" = "darkgreen" )){
+  plotdata <- data
+  arvo <- sym(sarake)
+  
+  medianval <- plotdata %>% pull(!!arvo) %>% median()
+  
+  gx <- ggplot(data, aes(x=!!arvo, 
+                         col=puolue, grp = puolue))+
+    geom_density()+
+    geom_vline(xintercept=medianval,lty=2)+
+    coord_cartesian(xlim=c(xmin,xmax))+
+    scale_color_manual(values = puoluevarit) +
+    ggtitle(caption)
+  
+}
+
+
+
+
+
+
 plotIkaEffect <- function(data, caption="", ymin=NA, ymax=NA,
-                          puoluevarit = c( "KOK" = "blue",
-                                           "KESK" = "lightgreen",
-                                           "PS" = "yellow",
-                                           "RKP" = "cyan",
-                                           "SDP" = "pink",
-                                           "VAS" = "red",
+                          puoluevarit = c( "KOK" = "blue3",
+                                           "KESK" = "chartreuse3",
+                                           "PS" = "gold3",
+                                           "RKP" = "cyan4",
+                                           "SDP" = "deeppink2",
+                                           "VAS" = "firebrick3",
                                            "VIHR" = "darkgreen" )){
   gx <- ggplot(data, aes(x=ika.ka, y=vanhojen_osuus))+
     geom_smooth(method="lm", col="black", lty= 2,  se=FALSE)+
     geom_point(aes(group=puolue, col=puolue), alpha=0.5, size=0.3)+
     geom_smooth(aes(group=puolue, col=puolue),method="lm", se=FALSE)+
     scale_color_manual(values = puoluevarit) +
+    geom_vline(xintercept = median(data$ika.ka), lty=2)+
+    geom_hline(yintercept = median(data$vanhojen_osuus), lty=2)+
     coord_cartesian(ylim=c(ymin,ymax))+
     ggtitle(caption)
 }
 
 
 plotIkaMat <- function(data, caption="", ymin=NA, ymax=NA,
-                          puoluevarit = c( "KOK" = "blue",
-                                           "KESK" = "lightgreen",
-                                           "PS" = "yellow",
-                                           "RKP" = "cyan",
-                                           "SDP" = "pink",
-                                           "VAS" = "red",
-                                           "VIHR" = "darkgreen" )){
+                       puoluevarit = c( "KOK" = "blue3",
+                                        "KESK" = "chartreuse3",
+                                        "PS" = "gold3",
+                                        "RKP" = "cyan4",
+                                        "SDP" = "deeppink2",
+                                        "VAS" = "firebrick3",
+                                        "VIHR" = "darkgreen" )){
   gx <- ggplot(data, aes(x=ika, y=p.aiemmin))+
     geom_smooth(method="lm", col="black", lty= 2,  se=FALSE)+
     geom_point(aes(group=puolue, col=puolue), alpha=0.5, size=0.3)+

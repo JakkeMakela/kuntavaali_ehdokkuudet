@@ -152,12 +152,50 @@ plotIka(ekdata, caption="Ehdokkaiden ikäjakaumat ek-vaaleissa",
 
 ```
 
+
+```{r}
+
+plotDistr(kvdata, "ika", caption = "Ehdokkaiden ikäjakaumat kuntavaaleissa" ,
+        xmin=18, xmax=75) %>% print()
+
+
+plotDistr(ekdata, "ika", caption = "Ehdokkaiden ikäjakaumat ek-vaaleissa" ,
+        xmin=18, xmax=75) %>% print()
+
+```
+
+```{r}
+
+plotDistr(kvdata %>% filter(aiemmin==TRUE), "ika",
+             caption = "Kokeneiden ehdokkaiden ikäjakaumat kuntavaaleissa" ,
+        xmin=18, xmax=75) %>% print()
+
+```
+
+
+```{r}
+
+plotDistr(kvtilasto, "ika.ka",
+             caption = "Listan keski-ikä kuntavaaleissa" ,
+        xmin=35, xmax=60) %>% print()
+
+```
+
+
+
+```{r}
+plotDistr(kvtilasto, "vanhojen_osuus",
+             caption = "Kokeneiden osuus kuntavaaleissa" ,
+        xmin=20, xmax=80) %>% print()
+```
+
+
 ```{r}
 
 
 
-plotIkaEffect(kvtilasto, ymin=30, ymax = 80,
-              caption = "KV, Listan keski-ikä vs listan kokeneisuus") %>% 
+plotIkaEffect(kvtilasto %>% filter(ika.ka <= 58), ymin=30, ymax = 80,
+              caption = "KV, Listan keski-ika vs listan kokeneisuus") %>% 
   print()
 
 
@@ -167,7 +205,7 @@ plotIkaEffect(kvtilasto, ymin=30, ymax = 80,
 
 
 ```{r}
-lm2 <- lmer(100*vanhojen_osuus ~ ika.ka +  1|puolue  , data = kvtilasto)
+lm2 <- lmer(100*vanhojen_osuus ~ ika.ka +  1|puolue  , data = kvtilasto %>% filter(ika.ka <= 58))
 
 summary(lm2)
 
