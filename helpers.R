@@ -96,7 +96,6 @@ plotTilasto <- function(data, wrap = TRUE, caption="Vanhojen ehdokkaiden osuudet
   gx <- ggplot(plotdata, aes(x=reorder(puolue,vanhojen_osuus,median, decreasing=TRUE), 
                              y=vanhojen_osuus, col = puolue))+
     geom_boxplot(notch=TRUE)+
-    geom_jitter(size=0.3,width=0.4, height=0.1,alpha=0.2)+
     geom_hline(yintercept=medianval,lty=2)+
     xlab("Puolueet")+
     ylab("Vanhojen ehdokkaiden osuus")+
@@ -149,4 +148,23 @@ plotIkaEffect <- function(data, caption="", ymin=NA, ymax=NA,
     scale_color_manual(values = puoluevarit) +
     coord_cartesian(ylim=c(ymin,ymax))+
     ggtitle(caption)
+}
+
+
+plotIkaMat <- function(data, caption="", ymin=NA, ymax=NA,
+                          puoluevarit = c( "KOK" = "blue",
+                                           "KESK" = "lightgreen",
+                                           "PS" = "yellow",
+                                           "RKP" = "cyan",
+                                           "SDP" = "pink",
+                                           "VAS" = "red",
+                                           "VIHR" = "darkgreen" )){
+  gx <- ggplot(data, aes(x=ika, y=p.aiemmin))+
+    geom_smooth(method="lm", col="black", lty= 2,  se=FALSE)+
+    geom_point(aes(group=puolue, col=puolue), alpha=0.5, size=0.3)+
+    geom_smooth(aes(group=puolue, col=puolue),method="lm", se=FALSE)+
+    scale_color_manual(values = puoluevarit) +
+    #coord_cartesian(ylim=c(ymin,ymax))+
+    ggtitle(caption)
+  return(gx)
 }

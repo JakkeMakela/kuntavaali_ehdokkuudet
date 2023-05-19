@@ -1,7 +1,7 @@
 ---
 title: "Analyysi kuntavaalien ehdokkaiden vaihtuvuudesta"
 author: "Jakke Mäkelä"
-date: "2023-05-04"
+date: "`r Sys.Date()`"
 output:
   html_document:
     df_print: paged
@@ -14,7 +14,7 @@ Tässä raportissa analysoidaan kuntavaaliehdokkaiden vaihtuvuutta Suomen kuntav
 Datat on haettu csv:nä 2023-05-03 oikeusministeriön palvelusta
 https://tulospalvelu.vaalit.fi/
 
-
+Skriptit löytyvät [githubista](https://github.com/JakkeMakela/kuntavaali_ehdokkuudet).
 
 ```{r include = FALSE}
 source("global.R")
@@ -175,8 +175,32 @@ coefficients(lm2)
 
 ```
 
+
+
+
 ```{r}
-lm.vanh <- lm(100*vanhojen_osuus ~ listan_pituus:puolue , data = kvtilasto)
+
+
+fd <- kvdata_raw %>%
+  filter(ika < 55 & ika > 25)
+
+ikamat <- fd %>%
+  group_by(ika, puolue) %>%
+  summarize(p.aiemmin = sum(aiemmin)/n())
+
+plotIkaMat(ikamat, caption = "Kokemus iän funktiona")
+
+lmika <- lmer(p.aiemmin ~ ika + 1|puolue, data = ikamat)
+summary(lmika)
+coefficients(lmika)
+
+
+```
+
+
+
+```{r}
+lm.vanh <- lm(vanhojen_osuus ~ puolue*lista_maksimi , data = kvtilasto)
 
 summary(lm.vanh)
 
@@ -187,7 +211,7 @@ summary(lm.vanh)
 
 ```{r}
 
-lm.ika <- lm(ika.ka ~ puolue + kuntavaali, data = kokotilasto) 
+lm.ika <- lm(ika.ka ~ puolue*lista_maksimi , data = kvtilasto) 
 
 summary(lm.ika)
 
