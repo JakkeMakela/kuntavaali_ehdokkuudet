@@ -100,6 +100,7 @@ plotTilasto <- function(data, wrap = TRUE, caption="Vanhojen ehdokkaiden osuudet
     xlab("Puolueet")+
     ylab("Vanhojen ehdokkaiden osuus")+
     theme(legend.position = "none")+
+    scale_y_continuous(breaks=seq(10,100,10))+
     scale_color_manual(values = puoluevarit) +
     ggtitle(paste0(caption))
   
@@ -126,7 +127,10 @@ plotIka <- function(data,  caption ="", ymin=18, ymax=80,
     geom_boxplot(notch=TRUE)+
     geom_hline(yintercept=medianval,lty=2)+
     coord_cartesian(ylim=c(ymin,ymax))+
+    scale_y_continuous(breaks=seq(20,100,10))+
     scale_color_manual(values = puoluevarit) +
+    theme(legend.position = "none")+
+    xlab("Puolueet")+
     ggtitle(caption)
   
 }

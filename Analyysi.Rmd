@@ -144,10 +144,10 @@ coefficients(aov.ektilasto)
 
 ```{r}
 
-plotIka(kvdata, caption = "Ehdokkaiden ikäjakaumat kuntavaaleissa" ,
+plotIka(kvdata, caption = "Ehdokkaiden ikajakaumat kuntavaaleissa" ,
         ymin=30, ymax=70) %>% print()
 
-plotIka(ekdata, caption="Ehdokkaiden ikäjakaumat ek-vaaleissa",
+plotIka(ekdata, caption="Ehdokkaiden ikajakaumat ek-vaaleissa",
         ymin=30, ymax=70) %>% print()
 
 ```
@@ -194,7 +194,7 @@ plotDistr(kvtilasto, "vanhojen_osuus",
 
 
 
-plotIkaEffect(kvtilasto %>% filter(ika.ka <= 58), ymin=30, ymax = 80,
+plotIkaEffect(kvtilasto %>% filter(ika.ka <= 58), ymin=30, ymax = 70,
               caption = "KV, Listan keski-ika vs listan kokeneisuus") %>% 
   print()
 
