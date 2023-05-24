@@ -67,6 +67,8 @@ teeTilasto <- function(data, min.lista=13, min.otos = 20){
     filter(!is.na(vanhojen_osuus)) %>%
     filter(vanhojen_osuus > 0) %>%
     
+    mutate(puol_aika = 4*log(0.5)/log(vanhojen_osuus/100) )%>%
+    
     mutate(lista_maksimi = max(listan_pituus)) %>%
     
     mutate(tayttoaste = listan_pituus/lista_maksimi) %>%
@@ -108,6 +110,42 @@ plotTilasto <- function(data, wrap = TRUE, caption="Vanhojen ehdokkaiden osuudet
   
   return(gx)
 }
+
+
+
+plotPuoliintuminen <- function(data, wrap = TRUE, 
+                               ymin = 0,
+                               ymax=NA, caption="Vanhojen ehdokkaiden osuudet", 
+                        puoluevarit = c( "KOK" = "blue3",
+                                         "KESK" = "chartreuse3",
+                                         "PS" = "gold3",
+                                         "RKP" = "cyan4",
+                                         "SDP" = "deeppink2",
+                                         "VAS" = "firebrick3",
+                                         "VIHR" = "darkgreen" )
+){
+  medianval <- data %>% pull(puol_aika) %>% median()
+  
+  plotdata <- data %>%
+    mutate(vuosi=as.factor(vuosi))
+  
+  gx <- ggplot(plotdata, aes(x=reorder(puolue,puol_aika,median, decreasing=TRUE), 
+                             y=puol_aika, col = puolue))+
+    geom_boxplot(notch=TRUE)+
+    geom_hline(yintercept=medianval,lty=2)+
+    xlab("Puolueet")+
+    ylab("Puoliintumisajat")+
+    theme(legend.position = "none")+
+    coord_cartesian(ylim=c(ymin,ymax))+
+    scale_y_continuous(breaks=seq(1,10,1))+
+    scale_color_manual(values = puoluevarit) +
+    ggtitle(paste0(caption))
+  
+  if (wrap) { gx <- gx +facet_wrap(~vuosi)}
+  
+  return(gx)
+}
+
 
 
 plotIka <- function(data,  caption ="", ymin=18, ymax=80, 

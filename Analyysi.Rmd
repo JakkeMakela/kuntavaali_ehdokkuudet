@@ -126,6 +126,16 @@ coefficients(aov.kvtilasto)
 ```
 
 
+```{r}
+
+plotPuoliintuminen(kvtilasto, wrap = FALSE, ymin=0, ymax= 8, caption = "Ehdokkaiden puoliintumisajat") 
+
+plotDistr(kvtilasto, "puol_aika", xmin=1, xmax = 9,
+          caption = "Ehdokkaiden puoliintumisajat")
+
+```
+
+
 ```{r plot_ek}
 
 plotTilasto(ektilasto, 
@@ -155,11 +165,11 @@ plotIka(ekdata, caption="Ehdokkaiden ikajakaumat ek-vaaleissa",
 
 ```{r}
 
-plotDistr(kvdata, "ika", caption = "Ehdokkaiden ikäjakaumat kuntavaaleissa" ,
+plotDistr(kvdata, "ika", caption = "Ehdokkaiden ikajakaumat kuntavaaleissa" ,
         xmin=18, xmax=75) %>% print()
 
 
-plotDistr(ekdata, "ika", caption = "Ehdokkaiden ikäjakaumat ek-vaaleissa" ,
+plotDistr(ekdata, "ika", caption = "Ehdokkaiden ikajakaumat ek-vaaleissa" ,
         xmin=18, xmax=75) %>% print()
 
 ```
@@ -167,7 +177,7 @@ plotDistr(ekdata, "ika", caption = "Ehdokkaiden ikäjakaumat ek-vaaleissa" ,
 ```{r}
 
 plotDistr(kvdata %>% filter(aiemmin==TRUE), "ika",
-             caption = "Kokeneiden ehdokkaiden ikäjakaumat kuntavaaleissa" ,
+             caption = "Kokeneiden ehdokkaiden ikajakaumat kuntavaaleissa" ,
         xmin=18, xmax=75) %>% print()
 
 ```
@@ -176,7 +186,7 @@ plotDistr(kvdata %>% filter(aiemmin==TRUE), "ika",
 ```{r}
 
 plotDistr(kvtilasto, "ika.ka",
-             caption = "Listan keski-ikä kuntavaaleissa" ,
+             caption = "Listan keski-ika kuntavaaleissa" ,
         xmin=35, xmax=60) %>% print()
 
 ```
@@ -226,7 +236,7 @@ ikamat <- fd %>%
   group_by(ika, puolue) %>%
   summarize(p.aiemmin = sum(aiemmin)/n())
 
-plotIkaMat(ikamat, caption = "Kokemus iän funktiona")
+plotIkaMat(ikamat, caption = "Kokemus ian funktiona")
 
 lmika <- lmer(p.aiemmin ~ ika + 1|puolue, data = ikamat)
 summary(lmika)
